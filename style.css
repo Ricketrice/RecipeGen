@@ -6,6 +6,7 @@
     height: 100%;
 }
 
+
 body {
     display: flex;
     background-image: url(./images/bodybackground.jpg);
@@ -60,3 +61,95 @@ body {
     transition: transform 0.2s ease
 }
 
+.miniContainer3 {
+    display: flex;
+    justify-content: space-around;
+}
+
+.twoButton {
+    background-color: #0097a7;
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+    width: 40%;
+    height: 40%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.twoButton:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.twoButton:active {
+    background-color: #0096a797;
+}
+
+
+.ingredient {
+    background-color: #E0F7FA;
+    width: 20%;
+    height: 80%;
+    left: 65%;
+    position: absolute;
+    align-self: center;
+    padding: 10px;
+    color: #1B5E20;
+    border: 5px solid rgba(205, 198, 198, 0.743);
+    border-radius: 10%;
+    overflow-y: auto;
+    display: none;
+}
+
+.ingredient * {
+    height: auto !important
+}
+
+.foodTitle {
+    font-size: 28px;
+    text-align: center;
+}
+
+.ingredientList {
+    list-style-type: square;
+    padding-left: 10%;
+    font-size: 1rem;
+}
+
+.ingredientList li {
+    padding-top: 5px;
+}
+
+iframe {
+    height: auto;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.instruction {
+    width: 20%;
+    height: 80%;
+    right: 65%;
+    position: absolute;
+    background-color: #E0F7FA;
+    top: 10%;
+    overflow-y: auto;
+    display: none;
+}
+
+.instruction * {
+    height: auto !important;
+}
+
+.instructionTitle {
+    padding: 10px;
+    text-align: center;
+    color: #1B5E20;
+}
+
+.instructionDetails {
+    color: #1B5E20;
+    margin: 10px;
+    
+    width: auto;
+}
