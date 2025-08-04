@@ -14,105 +14,149 @@ const showIntButton = document.querySelector(".showInt");
 
 const generateInfo = document.querySelector(".generaterButton");
 
+let arrayOfIngredient = [];
 async function getFoodImage() {
-    const response = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
-    const foodData = await response.json();
-    console.log(foodData);
-    FoodImage.src = foodData.meals[0].strMealThumb;
-    foodTitle.textContent = foodData.meals[0].strMeal;
-    let unsupportURL = foodData.meals[0].strYoutube;
-    let supportURl = unsupportURL.replace("watch?v=",  "embed/");//Iframe doesnt support watch?v=
-    iframe.src = supportURl;
-    instructionDetails.textContent = foodData.meals[0].strInstructions;
+  const response = await fetch(
+    "https://www.themealdb.com/api/json/v1/1/random.php"
+  );
+  const foodData = await response.json();
+  console.log(foodData);
+  FoodImage.src = foodData.meals[0].strMealThumb;
+  foodTitle.textContent = foodData.meals[0].strMeal;
+  let unsupportURL = foodData.meals[0].strYoutube;
+  let supportURl = unsupportURL.replace("watch?v=", "embed/"); //Iframe doesnt support watch?v=
+  iframe.src = supportURl;
+  instructionDetails.textContent = foodData.meals[0].strInstructions;
 
-
-    for (let i = 1;i<20; i++) {
-        /*
+  for (let i = 1; i < 20; i++) {
+    /*
         let ingredientInfo = foodData.meals[0][`strIngredient${i}`];
         let ingredientMeasurment = foodData.meals[0][`strMeasure${i}`];*/
-        if (foodData.meals[0][`strIngredient${i}`] && foodData.meals[0][`strMeasure${i}`] != null || foodData.meals[0][`strIngredient1${i}`] && foodData.meals[0][`strMeasure${i}`]!= " " || foodData.meals[0][`strIngredient${i}`] && foodData.meals[0][`strMeasure${i}`] != "") {
-            const list = document.createElement("li");
-            list.textContent = foodData.meals[0][`strIngredient${i}`] + " " + foodData.meals[0][`strMeasure${i}`];
-            ingredientList.append(list);
-        }
+    if (
+      (foodData.meals[0][`strIngredient${i}`] &&
+        foodData.meals[0][`strMeasure${i}`] != null) ||
+      (foodData.meals[0][`strIngredient1${i}`] &&
+        foodData.meals[0][`strMeasure${i}`] != " ") ||
+      (foodData.meals[0][`strIngredient${i}`] &&
+        foodData.meals[0][`strMeasure${i}`] != "")
+    ) {
+      const list = document.createElement("li");
+      list.textContent =
+        foodData.meals[0][`strIngredient${i}`] +
+        " " +
+        foodData.meals[0][`strMeasure${i}`];
+        arrayOfIngredient.push(foodData.meals[0][`strIngredient${i}`] + " " + foodData.meals[0][`strMeasure${i}`])
+        
+      ingredientList.append(list);
     }
-
+  }
 }
 
 let count = 0;
 showIngButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    showIngredientList.style.display = "block";
-    count++;
-    if (count > 1) {
-        count = 0;
-        showIngredientList.style.display = "none";
-    }
-})
+  iframe.style.visibility = "visible";
+  event.preventDefault();
+  showIngredientList.style.display = "block";
+  count++;
+  if (count > 1) {
+    count = 0;
+    showIngredientList.style.display = "none";
+  }
+});
 
-
-let otherCount = 0; 
+let otherCount = 0;
 showIntButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    instructionBlog.style.display = "block";
-    otherCount++;
-    if (otherCount > 1) {
-        otherCount = 0;
-        instructionBlog.style.display = "none";
-    }
-})
-
+  event.preventDefault();
+  instructionBlog.style.display = "block";
+  otherCount++;
+  if (otherCount > 1) {
+    otherCount = 0;
+    instructionBlog.style.display = "none";
+  }
+});
 
 generateInfo.addEventListener("click", (event) => {
-    event.preventDefault();
-    getFoodImage();
+  event.preventDefault();
+  getFoodImage();
 });
 
 /*
 Log the return value of the data to get the data that you want. 
-*/ 
+*/
 
-//Toggle by search 
+//Toggle by search
 let searchValue = document.getElementById("searchBar");
 let searchList = document.querySelector(".resultList");
 let shownResult = document.querySelector(".shownResults");
 
 async function searchByText() {
-    let value = searchValue.value;
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${value}`);
-    const foodData = await response.json();
-    console.log(foodData);
-    console.log(value);
-    let checkMeal = foodData.meals;
-    if (checkMeal != null) {
-        for (let i = 0; i<foodData.meals.length; i++) {
-            const listMealName = document.createElement("li");
-            listMealName.textContent = checkMeal[i].strMeal;
-            searchList.append(listMealName);
+  let value = searchValue.value;
+  const response = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/search.php?s=${value}`
+  );
+  const foodData = await response.json();
+  console.log(foodData);
+  console.log(value);
+  let checkMeal = foodData.meals;
+  if (checkMeal != null) {
+    for (let i = 0; i < foodData.meals.length; i++) {
+      const listMealName = document.createElement("li");
+      listMealName.textContent = checkMeal[i].strMeal;
+      searchList.append(listMealName);
+
+      listMealName.addEventListener("click", () => {
+        shownResult.style.display = "none";
+        FoodImage.src = foodData.meals[i].strMealThumb;
+        foodTitle.textContent = foodData.meals[i].strMeal;
+
+        let unsupportURL = foodData.meals[0].strYoutube;
+        let supportURl = unsupportURL.replace("watch?v=", "embed/"); //Iframe doesnt support watch?v=
+        iframe.src = supportURl;
+        instructionDetails.textContent = foodData.meals[0].strInstructions;
+
+        for (let j = 1; j < 20; j++) {
+          let ingredientInfo = foodData.meals[0][`strIngredient${j}`];
+          let ingredientMeasurment = foodData.meals[0][`strMeasure${j}`];
+          if (
+            (foodData.meals[0][`strIngredient${j}`] &&
+              foodData.meals[0][`strMeasure${j}`] != null) ||
+            (foodData.meals[0][`strIngredient1${j}`] &&
+              foodData.meals[0][`strMeasure${j}`] != " ") ||
+            (foodData.meals[0][`strIngredient${j}`] &&
+              foodData.meals[0][`strMeasure${j}`] != "")
+          ) {
+            const list = document.createElement("li");
+            list.textContent =
+              foodData.meals[0][`strIngredient${j}`] +
+              " " +
+              foodData.meals[0][`strMeasure${j}`];
+            arrayOfIngredient.push(foodData.meals[0][`strIngredient${i}`] + " " + foodData.meals[0][`strMeasure${i}`]);
+
+            ingredientList.append(list);
+            console.log(arrayOfIngredient[0]);
+          }
         }
-    } else {
-        const listMealName = document.createElement("li");
-        listMealName.textContent = "No meal found";
-        searchList.append(listMealName);
+      });
     }
-
-
+  } else {
+    const listMealName = document.createElement("li");
+    listMealName.textContent = "No meal found";
+    searchList.append(listMealName);
+  }
 }
 
 searchByText();
 
-
-searchValue.addEventListener("input",() => {
-    searchList.innerHTML = "";
-    if (searchValue.value !== "") {
-        shownResult.style.display = "block";
-    } else {
-        shownResult.style.display = "none";
-    }
-    searchByText();
-    
-    
-})
+searchValue.addEventListener("input", () => {
+  searchList.innerHTML = "";
+  iframe.style.visibility = "visible";
+  if (searchValue.value !== "") {
+    shownResult.style.display = "block";
+  } else {
+    shownResult.style.display = "none";
+  }
+  searchByText();
+});
 
 /*
     searchValue.addEventListener("input", (event) => {
@@ -140,4 +184,18 @@ searchValue.addEventListener("input",() => {
     }
 })
 
-*/ 
+*/
+//Save recipe
+let savedMeal = {};
+
+function saveFood() {
+  savedMeal[foodTitle.textContent] = {
+    Image: FoodImage.src,
+    iframeURL: iframe.src,
+    intDetails: instructionDetails.textContent,
+    intList: arrayOfIngredient, 
+
+  };
+}
+
+

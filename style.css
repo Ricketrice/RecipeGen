@@ -124,6 +124,7 @@ iframe {
     height: auto;
     margin-top: 20px;
     border-radius: 10px;
+    visibility: hidden;
 }
 
 .instruction {
@@ -173,4 +174,8 @@ iframe {
     overflow-y: auto;
     display: none;
 
+}
+
+.twoButton {
+    margin: 2px;
 }
