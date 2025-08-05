@@ -8,13 +8,18 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-
+    <div class="savedInfo">
+      <h1>Saved recipe:</h1>
+      <ul id = "savedRecipeMainContainer">        
+      </ul>
+    </div>
     <div class="container">
       <div class="searchBarContainer">
         <input id="searchBar" type="text" placeholder="Search..">
       </div>
       <div class="shownResults">
         <ul class="resultList">
+          
         </ul>
       </div>
 
@@ -29,7 +34,7 @@
       <div class="miniContainer3">
         <button class= "showInt twoButton" type="button">Show Instruction</button>
         <button class= "showIng twoButton" type="button">Show ingredient</button>
-        <button class= "showIng twoButton" type="button">Save</button>
+        <button class= "showIng twoButton" type="button" onclick="saveFood()">Save</button>
 
       </div>
     </div>

@@ -179,3 +179,25 @@ iframe {
 .twoButton {
     margin: 2px;
 }
+
+
+.savedInfo * {
+    height: auto !important;
+}
+.savedInfo {
+    background-color: #E0F7FA;
+    width: 10%;
+    height: 80%;
+    top: 10%;
+    left: 2%;
+    position: absolute;
+    overflow-y: auto;
+}
+
+.savedInfo h1 {
+    text-align: center;
+}
+
+.savedInfo li {
+    margin-left: 11%;
+}

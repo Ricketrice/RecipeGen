@@ -187,15 +187,54 @@ searchValue.addEventListener("input", () => {
 */
 //Save recipe
 let savedMeal = {};
-
+let foodID = 1;
+let saveDiv = document.querySelector(".savedInfo");
 function saveFood() {
-  savedMeal[foodTitle.textContent] = {
-    Image: FoodImage.src,
-    iframeURL: iframe.src,
-    intDetails: instructionDetails.textContent,
-    intList: arrayOfIngredient, 
+    if (foodTitle.textContent === "" || foodTitle.textContent === " ") {
+        return;
+    } else {
+        for (let id in savedMeal) {
+            if (savedMeal[id].title == foodTitle.textContent) {
+                return;
+            }
+        }
+    }
 
-  };
+    savedMeal[foodID] = {
+        title: foodTitle.textContent,
+        Image: FoodImage.src,
+        iframeURL: iframe.src,
+        intDetails: instructionDetails.textContent,
+        intList: arrayOfIngredient, 
+    }
+
+    console.log(savedMeal[foodID].intList);
+    foodID++;
+    const recipeSavedList = document.createElement("li");
+    const savedRecipeMainContainer = document.getElementById("savedRecipeMainContainer");
+    recipeSavedList.textContent = foodTitle.textContent;
+    savedRecipeMainContainer.append(recipeSavedList);
 }
+
+savedRecipeMainContainer.addEventListener("click", (event) => {
+    console.log(event.target.textContent);
+    for (let id in savedMeal) {
+        if (event.target.textContent == savedMeal[id].title) {
+            FoodImage.src = savedMeal[id].Image;
+            foodTitle.textContent = savedMeal[id].title;
+            let unsupportURL = savedMeal[id].iframeURL;
+            let supportURl = unsupportURL.replace("watch?v=",  "embed/");//Iframe doesnt support watch?v=
+            iframe.src = supportURl;
+            instructionDetails.textContent = savedMeal[id].intDetails;
+            ingredientList.innerHTML = ""
+            for (let i = 0; i<savedMeal[id].intList.length; i++) {
+                const list = document.createElement("li");
+                list.textContent = savedMeal[id].intList[i];
+                ingredientList.append(list);
+                console.log(savedMeal[id].intList);
+            }
+        }
+    }
+})
 
 
