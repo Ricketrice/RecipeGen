@@ -186,10 +186,15 @@ searchValue.addEventListener("input", () => {
 
 */
 //Save recipe
+
 let savedMeal = {};
 let foodID = 1;
 let saveDiv = document.querySelector(".savedInfo");
 function saveFood() {
+    var imgDelete= document.createElement("img");
+    imgDelete.src = "./images/delete.svg";
+    imgDelete.style.width = "15px";
+    imgDelete.style.height = "15px";
     if (foodTitle.textContent === "" || foodTitle.textContent === " ") {
         return;
     } else {
@@ -213,6 +218,7 @@ function saveFood() {
     const recipeSavedList = document.createElement("li");
     const savedRecipeMainContainer = document.getElementById("savedRecipeMainContainer");
     recipeSavedList.textContent = foodTitle.textContent;
+    recipeSavedList.append(imgDelete);
     savedRecipeMainContainer.append(recipeSavedList);
 }
 
@@ -235,6 +241,17 @@ savedRecipeMainContainer.addEventListener("click", (event) => {
             }
         }
     }
+
+    if (event.target.tagName == "IMG") {
+        let getTitle = event.target.parentElement.textContent;
+        for (let id in savedMeal) {
+            if (getTitle == savedMeal[id].title) {
+                delete savedMeal[id];
+                event.target.parentElement.remove()
+            }
+        }
+    }
+    
 })
 
 
