@@ -220,6 +220,10 @@ function saveFood() {
     recipeSavedList.textContent = foodTitle.textContent;
     recipeSavedList.append(imgDelete);
     savedRecipeMainContainer.append(recipeSavedList);
+
+    localStorage.setItem('savedMeal', JSON.stringify(savedMeal));
+    localStorage.setItem('foodID', foodID);
+
 }
 
 savedRecipeMainContainer.addEventListener("click", (event) => {
@@ -242,16 +246,76 @@ savedRecipeMainContainer.addEventListener("click", (event) => {
         }
     }
 
+
     if (event.target.tagName == "IMG") {
         let getTitle = event.target.parentElement.textContent;
         for (let id in savedMeal) {
             if (getTitle == savedMeal[id].title) {
                 delete savedMeal[id];
+                localStorage.setItem("savedMeal", JSON.stringify(savedMeal));
+
                 event.target.parentElement.remove()
             }
         }
     }
     
 })
+
+function loadData() {
+
+  savedMeal = JSON.parse(localStorage.getItem('savedMeal')) || {};
+  const savedRecipeMainContainer = document.getElementById("savedRecipeMainContainer");
+  let checkDupi = [];
+  
+  for (let id in savedMeal) {
+    var imgDelete= document.createElement("img");
+    imgDelete.src = "./images/delete.svg";
+    imgDelete.style.width = "15px";
+    imgDelete.style.height = "15px";
+    let check = true;
+    for (let i = 0; i<checkDupi.length; i++) {
+      if (checkDupi[i] == savedMeal[id].title) {
+        check = false;
+        break;
+      }
+    }
+    if (check == true) {
+      const recipeSavedList = document.createElement("li");
+      recipeSavedList.textContent = savedMeal[id].title;
+      recipeSavedList.append(imgDelete);
+      savedRecipeMainContainer.append(recipeSavedList);
+       
+      checkDupi.push(savedMeal[id].title)
+
+    }
+
+  }
+
+  /*
+  for (let id in savedMeal) {
+    FoodImage.src = savedMeal[id].Image;
+    foodTitle.textContent = savedMeal[id].title;
+    let unsupportURL = savedMeal[id].iframeURL;
+    let supportURl = unsupportURL.replace("watch?v=",  "embed/");//Iframe doesnt support watch?v=
+    iframe.src = supportURl;
+    instructionDetails.textContent = savedMeal[id].intDetails;
+    ingredientList.innerHTML = ""
+    for (let i = 0; i<savedMeal[id].intList.length; i++) {
+        const list = document.createElement("li");
+        list.textContent = savedMeal[id].intList[i];
+        ingredientList.append(list);
+        console.log(savedMeal[id].intList);
+    }
+  }*/
+}
+
+window.onload = function () {
+  loadData();
+  const storedID = localStorage.getItem("foodID");
+
+  foodID = parseInt(storedID);
+
+}
+
 
 
